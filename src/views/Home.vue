@@ -1,18 +1,51 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <TopComp v-bind:headerText="headerText" />
+    <CardComp v-bind:currentCard="activeCard" />
+    <CardStack />
+    <router-link to="/addcard">
+      <button class="create-card-btn">ADD A NEW CARD</button>
+    </router-link>
+    
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import TopComp from "@/components/TopComp.vue";
+import CardComp from "@/components/CardComp.vue";
+import CardStack from "@/components/CardStack.vue";
 
 export default {
   name: "Home",
   components: {
-    HelloWorld
+    TopComp,
+    CardComp,
+    CardStack
+  }, 
+    data() {
+    return {
+      headerText: {
+        header: "E-WALLET",
+        subheader: "ACTIVE CARD"
+      },
+      activeCard: this.$root.$data.activeCard
+    }
   }
 };
 </script>
+
+<style scoped lang="scss">
+
+  .create-card-btn {
+    width: 360px;
+    margin: 20px;
+    background-color:white;
+    color:black;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+</style>
