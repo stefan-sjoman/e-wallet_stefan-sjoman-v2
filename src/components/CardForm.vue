@@ -4,7 +4,7 @@
       <label for="card-number" class="both-columns">CARD NUMBER</label>
       <input name="card-number" class="both-columns" type="text" placeholder="XXXX XXXX XXXX XXXX"
         v-model="$root.$data.defaultCard.number"
-        v-on:input="divideNumber"
+        v-on:input="numberError"
         v-bind:class="formError">
       <label for="cardholder-name" class="both-columns">CARDHOLDER NAME</label>
       <input name="cardholder-name" type="text" class="both-columns" placeholder="FIRSTNAME LASTNAME"
@@ -90,20 +90,19 @@ export default {
 
       this.$root.$data.defaultCard = defaultCard;
     },
-    divideNumber() {
+
+    numberError() {
 
       let number = this.$root.$data.defaultCard.number
 
-      if (number.length < 20) {
-        if (number.length === 4 || number.length === 9 || number.length === 14) {
-          this.$root.$data.defaultCard.number += " ";
-        } 
-        return this.formError = ""
+      if (number.length > 16) {
+        return this.formError = "form-error";
       }
       else {
-        return this.formError = "form-error"
+        return this.formError = "";
       }
     },
+
     setCapital() {
       let holder = this.$root.$data.defaultCard.holder
 
