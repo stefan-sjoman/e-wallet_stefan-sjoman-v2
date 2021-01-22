@@ -8,6 +8,11 @@ new Vue({
   router,
   data() {
     return {
+
+      // instead of server-side auto-increment 
+      //starts on 4 ( 4 cards from beginning )
+      autoId: 4,
+      
       activeCard: {
         id: "",
         holder: "",

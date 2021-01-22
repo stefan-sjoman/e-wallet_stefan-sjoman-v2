@@ -8,7 +8,8 @@
         v-bind:class="formError">
       <label for="cardholder-name" class="both-columns">CARDHOLDER NAME</label>
       <input name="cardholder-name" type="text" class="both-columns" placeholder="FIRSTNAME LASTNAME"
-        v-model="$root.$data.defaultCard.holder">
+        v-model="$root.$data.defaultCard.holder"
+        v-on:input="setCapital">
       <div class="valid-thru">
         <div class="month">
           <label for="month" class="first-column">MONTH</label>
@@ -72,6 +73,9 @@ export default {
 
   methods: {
     addCard: function() {
+
+      this.$root.$data.autoId++;
+      this.$root.$data.defaultCard.id = this.$root.$data.autoId;
   
       this.$root.$data.cards.push(this.$root.$data.defaultCard);
 
@@ -99,6 +103,11 @@ export default {
       else {
         return this.formError = "form-error"
       }
+    },
+    setCapital() {
+      let holder = this.$root.$data.defaultCard.holder
+
+      this.$root.$data.defaultCard.holder = holder.toUpperCase();
     }
   }
 }
@@ -165,16 +174,18 @@ export default {
     background-color: black;
     color: white;
     width: 100%;
-    border: 1px solid black;
+    border: 2px solid black;
+    outline: 0;
     border-radius: 4px;
     padding: 16px;
     font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
     margin-top: 16px;
   }
 
   .form-error {
-    background: red;
+    background: rgb(255, 93, 93);
   }
 
 </style>

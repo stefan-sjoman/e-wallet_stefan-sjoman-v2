@@ -42,10 +42,12 @@ export default {
     margin: 20px;
     background-color:white;
     color:black;
-    border: 1px solid black;
+    border: 2px solid black;
+    outline: 0;
     border-radius: 4px;
     padding: 16px;
     font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
   }
 </style>
