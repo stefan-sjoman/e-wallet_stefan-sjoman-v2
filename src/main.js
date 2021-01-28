@@ -18,8 +18,8 @@ new Vue({
         holder: "",
         vendor: "default-card",
         number: "",
-        validMonth: "",
-        validYear: ""
+        validMonth: "MM",
+        validYear: "YY"
       },
 
       defaultCard: {
@@ -27,16 +27,17 @@ new Vue({
         holder: "",
         vendor: "default-card",
         number: "",
-        validMonth: "",
-        validYear: ""
+        validMonth: "MM",
+        validYear: "YY"
       },
 
+      // instead of server-side saved cards
       cards: [
         {
           id: "1",
           holder: "BILL GATES",
           vendor: "bitcoin",
-          number: "1470 2580 3690 1470",
+          number: "1470258036901470",
           validMonth: "12",
           validYear: "24"
         },
@@ -44,7 +45,7 @@ new Vue({
           id: "2",
           holder: "ELON MUSK",
           vendor: "evil-corp",
-          number: "9630 8520 7410 9630",
+          number: "9630852074109630",
           validMonth: "02",
           validYear: "22"
         },
@@ -52,7 +53,7 @@ new Vue({
           id: "3",
           holder: "STEVE JOBS",
           vendor: "ninja-bank",
-          number: "7410 8520 9630 7410",
+          number: "7410852096307410",
           validMonth: "06",
           validYear: "21"
         },
@@ -60,7 +61,7 @@ new Vue({
           id: "4",
           holder: "STEFAN SJÖMAN",
           vendor: "block-chain",
-          number: "3690 2580 1470 3690",
+          number: "3690258014703690",
           validMonth: "10",
           validYear: "26"
         }

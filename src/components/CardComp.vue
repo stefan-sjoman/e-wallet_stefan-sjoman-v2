@@ -5,14 +5,14 @@
       <span class="logo"></span>
     </div>
     <div class="card-details card-grid">
-      <span class="card-number">{{ currentCard.number }}</span>
+      <span class="card-number">{{ setSpaces }}</span>
       <span class="card-holder">
         <span class="holder-label">CARD HOLDER</span>
         <span class="name">{{ currentCard.holder }}</span>
       </span>
       <span class="valid-thru">
         <span class="valid-label">VALID THRU</span>
-        <span class="valid-date">{{ currentCard.validMonth }} / {{ currentCard.validYear }} </span>  
+        <span class="valid-date">{{ currentCard.validMonth }}/{{ currentCard.validYear }} </span>  
       </span>
     </div>
   </div>
@@ -22,23 +22,30 @@
 export default {
   name: "CardComp",
 
-  data(){
-    return {
-      cardVendor: this.currentCard.vendor
+  computed: {
+    setSpaces() {
+      // FYI: put FUNCTION-NAME in mustach variable!
+      let spacedNumbers = "";
+
+      for (let i = 0; i < this.currentCard.number.length; i++) {
+        if (i === 4 || i === 8 || i === 12) {
+          spacedNumbers += " ";
+        }
+        spacedNumbers += this.currentCard.number[i]
+      }
+      return spacedNumbers;
     }
   },
 
   props: {
     currentCard: Object
-  }
+  }, 
 }
+
 </script>
 
 <style scoped lang="scss">
-
-  h1 {
-    color: rgb(66, 22, 22);
-  }
+  @import '../scss-variables';
 
   .card-container {
     margin: 16px auto;
@@ -47,6 +54,8 @@ export default {
 
     border-radius: 8px;
     box-shadow: 0 0 8px black;
+
+    font-family: Courier, monospace;
 
     display: grid;
     grid-template-columns: 1fr;
@@ -66,7 +75,7 @@ export default {
   }
 
   .default-card {
-    background-color: rgb(128, 128, 128);
+    background-color: $gray;
     .card-details {
       color: black;
     }
@@ -139,8 +148,10 @@ export default {
   .card-number {
     grid-column: 1/5;
     grid-row: 3;
+    font-family: Courier, monospace;
     text-align: center;
     font-size: 28px;
+    text-shadow: 1px 1px 1px black;
   }
 
   .card-holder {

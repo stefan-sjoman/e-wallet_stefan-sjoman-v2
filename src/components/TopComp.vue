@@ -17,6 +17,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '../scss-variables';
 
   h1 {
     color: black;
@@ -25,7 +26,7 @@ export default {
   }
 
   h2 {
-    color: rgb(121, 121, 121);
+    color: $gray;
     font-size: 12px;
     margin: 0;
   }

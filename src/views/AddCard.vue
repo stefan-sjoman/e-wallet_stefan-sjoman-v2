@@ -31,15 +31,7 @@ export default {
       addCard() {
         return this.$root.$data.defaultCard
       }
-        
   }
   
 }
 </script>
-
-<style lang="scss" scoped>
-  div {
-    background-color: rgb(255, 228, 177);
-  }
-
-</style>

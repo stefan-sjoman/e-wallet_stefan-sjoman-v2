@@ -2,7 +2,7 @@
   <div class="card-form-container">
     <form class="card-form">
       <label for="card-number" class="both-columns">CARD NUMBER</label>
-      <input name="card-number" class="both-columns" type="text" placeholder="XXXX XXXX XXXX XXXX"
+      <input name="card-number" class="both-columns" type="text" placeholder="XXXXXXXXXXXXXXXX"
         v-model="$root.$data.defaultCard.number"
         v-on:input="numberError"
         v-bind:class="formError">
@@ -15,35 +15,14 @@
           <label for="month" class="first-column">MONTH</label>
           <select name="month" id="month" class="first-column"
             v-model="$root.$data.defaultCard.validMonth">
-            <option value="01">01</option>
-            <option value="02">02</option>
-            <option value="03">03</option>
-            <option value="04">04</option>
-            <option value="05">05</option>
-            <option value="06">06</option>
-            <option value="07">07</option>
-            <option value="08">08</option>
-            <option value="09">09</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
+            <option v-for="month in months" v-bind:key="month">{{month}}</option>   
           </select>
         </div>
         <div class="year">
           <label for="year" class="second-column">YEAR</label>
           <select name="year" id="year" class="second-column"
             v-model="$root.$data.defaultCard.validYear">
-            <option value="21">21</option>
-            <option value="22">22</option>
-            <option value="23">23</option>
-            <option value="24">24</option>
-            <option value="25">25</option>
-            <option value="26">26</option>
-            <option value="27">27</option>
-            <option value="28">28</option>
-            <option value="29">29</option>
-            <option value="30">30</option>
-            <option value="31">31</option>
+            <option v-for="year in years" v-bind:key="year">{{year}}</option>
           </select>
         </div>
       </div>
@@ -55,8 +34,15 @@
         <option value="block-chain">BLOCK CHAIN INC</option>
         <option value="evil-corp">EVIL CORP</option>
       </select>
+      <span class="valid-message" v-show="validMessage">PLEASE CHECK YOUR INPUTS</span>
+      <router-link to="/" v-if="validation" class="both-columns">
+        <button class="default-btn add-card-btn" v-on:click="addCard">ADD CARD</button>
+      </router-link>
+      <router-link to="/addcard" v-else class="both-columns">
+        <button class="default-btn add-card-btn" v-on:click="addCard">ADD CARD</button>
+      </router-link>
       <router-link to="/" class="both-columns">
-        <button class="add-card-btn" v-on:click="addCard">ADD CARD</button>
+        <button class="default-btn cancel-card-btn" v-on:click="cancelCard">CANCEL</button>
       </router-link>
     </form>
   </div>
@@ -67,32 +53,56 @@ export default {
 
   data() {
     return {
-      formError: "" 
+      tempNumber: "",
+      formError: "",
+      validation: false,
+      validMessage: false,
+      months: [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+      years: this.importYears(),
     }
   },
 
   methods: {
-    addCard: function() {
+    addCard() {
+      if (this.validateInput()) {
+        this.validation = true;
 
-      this.$root.$data.autoId++;
-      this.$root.$data.defaultCard.id = this.$root.$data.autoId;
-  
-      this.$root.$data.cards.push(this.$root.$data.defaultCard);
+        this.$root.$data.autoId++;
+        this.$root.$data.defaultCard.id = this.$root.$data.autoId;
 
+        this.$root.$data.cards.push(this.$root.$data.defaultCard);
+
+        let defaultCard = {
+          id: "",
+          holder: "",
+          vendor: "default-card",
+          number: "",
+          validMonth: "",
+          validYear: ""
+        }
+
+        this.$root.$data.defaultCard = defaultCard;
+      }
+      else {
+        this.validMessage = true;
+      }
+
+    },
+
+    cancelCard() {
       let defaultCard = {
         id: "",
         holder: "",
         vendor: "default-card",
         number: "",
-        validMonth: "",
-        validYear: ""
+        validMonth: "MM",
+        validYear: "YY"
       }
 
       this.$root.$data.defaultCard = defaultCard;
     },
 
     numberError() {
-
       let number = this.$root.$data.defaultCard.number
 
       if (number.length > 16) {
@@ -107,12 +117,41 @@ export default {
       let holder = this.$root.$data.defaultCard.holder
 
       this.$root.$data.defaultCard.holder = holder.toUpperCase();
+    },
+
+    validateInput() {
+      let defaultCard = this.$root.$data.defaultCard
+
+      if (
+        defaultCard.holder === "" ||
+        defaultCard.vendor === "default-card" ||
+        defaultCard.number === "" ||
+        defaultCard.number.length !== 16 ||
+        defaultCard.validMonth === "MM" ||
+        defaultCard.validYear === "YY"
+      ) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    },
+
+    importYears() {
+      let currentYear = new Date().getFullYear();
+      let years = [];
+      
+      for (let i = 0; i < 10; i++) {
+        years.push((currentYear + i).toString().substr(2, 2));
+      }
+      return years
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+  @import '../scss-variables';
 
   .card-form-container {
     padding: 20px;
@@ -163,28 +202,31 @@ export default {
     margin: 12px 0 0 0;
   }
 
-
   select { 
     border-radius: 4px;
     outline: none;
   }
 
-  .add-card-btn {
+  .cancel-card-btn {
+    background-color: $gray;
+    color: black;
+  }
+
+  .cancel-card-btn:hover {
     background-color: black;
     color: white;
-    width: 100%;
-    border: 2px solid black;
-    outline: 0;
-    border-radius: 4px;
-    padding: 16px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 16px;
   }
 
   .form-error {
-    background: rgb(255, 93, 93);
+    background: $warning;
+  }
+
+  .valid-message {
+    color: $warning;
+    border-radius: 4px;
+    margin-top: 16px;
+    padding: 16px;  
+    font-weight: 700;
   }
 
 </style>
