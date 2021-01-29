@@ -43,5 +43,4 @@
     background-color:white;
     color:black;
   }
-  
 </style>
